@@ -64,9 +64,9 @@ ingress:
   enabled: false
   # Used to create an Ingress record.
   hosts:
-    - name: sonarqube.your-org.com
+    - name:
       # Different clouds or configurations might need /* as the default path
-      path: /
+      path: /sonar
       # For additional control over serviceName and servicePort
       # serviceName: someService
       # servicePort: somePort

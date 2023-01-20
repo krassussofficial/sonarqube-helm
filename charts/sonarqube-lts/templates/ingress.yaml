@@ -29,8 +29,7 @@ metadata:
 spec:
   rules:
   {{- range .Values.ingress.hosts }}
-  - host: {{ printf "%s" .name }}
-    http:
+  - http:
       paths:
       - backend:
           service:
@@ -39,6 +38,9 @@ spec:
               number: {{ default $servicePort .servicePort }}
         path: {{ .path}}
         pathType: ImplementationSpecific
+        {{- if .name }}
+        host: {{ printf "%s" .name }}
+        {{- end }}
   {{- end }}
 {{ else }}
 spec:
@@ -53,13 +55,15 @@ spec:
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - host: {{ .name }}
-      http:
+    - http:
         paths:
           - path: {{ .path}}
             backend:
               serviceName: {{ default $serviceName .serviceName }}
               servicePort: {{ default $servicePort .servicePort }}
+        {{- if .name }}
+        host: {{ printf "%s" .name }}
+        {{- end }}
     {{- end -}}
 {{ end -}}
   {{- if .Values.ingress.tls }}
